@@ -1,0 +1,106 @@
+<div class="row animated fadeIn fast">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <input type="text"
+                        class="form-control"
+                        placeholder="Buscar usuario..."
+                        (keyup)="buscar( txtTermino.value )" 
+                        #txtTermino> <!--CUANDO SE PRESIONE UNA TECLA BUSQUE EL TERMINO KEYUP ES PARA VER LAS LETRAS QUE SE ESCRIBEN EN TIEMPO REAL MIENTRAS SE EPREISONA UNA LETRA-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn fast"
+    *ngIf="cargando">
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere...</p>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row animated fadeIn fast" *ngIf="!cargando"> <!--SI NO ESTA CARGADO-->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Total de usuarios: ({{totalUsuarios}}) - {{ desde }}</h4>
+                <h6 class="card-subtitle">Usuarios registrados en mi aplicacion</h6>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="w100">Avatar</th>
+                                <th>Correo</th>
+                                <th>Nombre</th>
+                                <th class="w140">Role</th>
+                                <th class="w100">Auth</th>
+                                <th class="text-nowrap w100">Accciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let usuario of usuarios">
+                                <td class="text-center"><img [src]="usuario.imagenUrl" 
+                                    alt="Avatar del usuario" 
+                                    class="avatar cursor"
+                                    (click)="abrirModal(usuario)"> <!--Abrir modal se activa cuando se hace click en la umagen del usuario (se le pasa el usuario de la imagen)-->
+                                </td>
+                                <td>{{ usuario.email }}</td>                         
+                                <td>{{ usuario.nombre }}</td>              
+                                
+                                
+                                <td>
+                                    <!-- si el usuario selecciona la opción "Admin" en el <select>, el valor del 
+                                        usuario.role se actualizará a "ADMIN_ROLE" (como aparece en los option del select)
+                                        . Si el usuario selecciona la opción "User", el valor del usuario.role se 
+                                        actualizará a "USER_ROLE eso es porque usuario.role esta enlazado al ngModel es decir
+                                        que cuando el usuario le de click a alguna de las opciones se activa el evento change lo que hace que se active la funcion cambiar rol"-->
+                                    <select class="from-control"
+                                    [(ngModel)]="usuario.role"
+                                    (change)="cambiarRole( usuario )"> <!--ES PARA QUE TODOS TENGAN EL ROLE QUE SESUPONE DEBEN TENER-->
+                                    
+                                        <option value="ADMIN_ROLE">Admin</option>
+                                        <option value="USER_ROLE">User</option>
+                                    </select>
+                                </td>
+
+                                <!--ESTO ES PARA QUE EN LA TABLA EN EL APARTADO DE AUTH APAREZCA SI EL USUARIO ES DE GOOGLE O UN USUARIO NORMAL QUE SE REGISTRO EN LA PAGINA-->
+                                <td>
+                                    <span *ngIf="usuario.google" class="label label-danger">Google</span>
+                                    <span *ngIf="!usuario.google" class="label label-info">Email</span>
+                                </td>
+           
+                               
+                                
+                                <!--SIMBOLITO PARA ELIMINAR USUARIO-->
+                                <td class="text-nowrap text-center">
+                                    <a data-toggle="tooltip"
+                                     data-original-title="Borrar"
+                                     class="cursor"
+                                     (click)="eliminarUsuario(usuario)"> <!--SE ENVIA A LA FUNCION EL USUARIO QUE SE QUIERE ELIMINAR CUANDO SE LE HACE CLICK AL SIMBOLITO EL QUE SE CRE EN EL NG*FOR DE ARRIBA-->
+                                         <i class="fa fa-close text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--ESTA CONDICION SE HACE PARA QUE CUANDO SE TECLEA EN LA BARRA DE BUSQUEDA Y SE CARGAN LOS RESULTADOS DE BUSQUEDA DESAPARESCAN LOS BOTONES SIGUIENTES Y ANTERIOR EN LA PANTALLA-->
+                <div *ngIf="txtTermino.value.length === 0"> <!--SI EL TERMINO ES IGUAL A 0 LOS BOTONES SIGUIENTE Y ANTERIOR SE VAN A MOSTRAR CASO CONTRARIO VAN A DESAPARECER-->
+                    <button (click)="cambiarPagina(-5)" class="btn btn-secondary">Anteriores</button>
+                    &nbsp; <!--Esto es para que exista una pequeña separacion entre ambos-->
+                    <button (click)="cambiarPagina(5)" class="btn btn-secondary">Siguiente</button>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+
+</div>

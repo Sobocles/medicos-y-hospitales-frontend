@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <!--ESTA ES LA BARRA DE PROGRESO 1-->
+                <h4 class="card-title">Striped Progress bar</h4>
+                <div class="progress m-t-20">
+                    <div class="progress-bar bg-primary progress-bar-striped active"
+                        style="height:5px;"
+                        [style.width]="getProgreso1"
+                         role="progressbar">
+                        </div>
+                </div>
+                 <!--ESTA ES LA BARRA DE PROGRESO 2-->
+                <div class="progress m-t-20">
+                    <div class="progress-bar bg-info progress-bar-striped active"
+                         style="height:5px;"
+                         [style.width]="getProgreso2"
+                         role="progressbar">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!--CON ESTO MOSTRAMOS EL COMPONENTE INCREMENTADOR Y RECIBIMOS LOS DATOS QUE ENVIAMOS Y NOS LLEGAN DE AHI-->
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+    
+                <app-incrementador (valor)="progreso1 = $event" 
+                                   [valor]="progreso1">
+                </app-incrementador>
+    
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <!--(valor)="progreso2 = $event" significa que cuando se emita el evento "valor" desde el componente hijo
+                     app-incrementador, se ejecutará la expresión progreso2 = $event en el componente padre. $event 
+                     representa el valor emitido por el evento. En resumen, el valor del evento se asignará a progreso2 
+                     en el componente padre.-->
+                <app-incrementador (valor)="progreso2 = $event" 
+                                    [valor]="progreso2"
+                                    [btnClass]="'btn-info'">
+                </app-incrementador>
+    
+            </div>
+        </div>
+    </div>
+
+
+</div>

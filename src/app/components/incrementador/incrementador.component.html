@@ -1,0 +1,29 @@
+<!--ESTO ES EL BOTON DE - PARA DESINCREMENTAR LA PROGRESS BAR-->
+<div class="input-group">
+    <span class="input-group-btn">
+        <button (click)="cambiarValor(-5)"
+                [ngClass]="btnClass"
+                type="button">
+            <i class="fa fa-minus"></i>
+        </button>
+    </span>
+
+    <!--ESTO ES EL ESPACIO QUE CONTIENE LA CANTIDAD DE PROGRESO EN NUMERO ENTRE EL + Y EL - -->
+    <input type="number" 
+           class="form-control"
+           [ngClass]="{'is-invalid': progreso > 100 || progreso < 0 }"
+           placeholder="Progreso"
+           min="0"
+           max="100"
+           (ngModelChange)="onChange($event)"
+           [(ngModel)]="progreso">
+
+    <!--ESTO ES EL BOTON DE + PARA INCREMENTAR LA PROGRESS BAR-->
+    <span class="input-group-btn">
+        <button (click)="cambiarValor(5)"
+                [ngClass]="btnClass"
+                type="button">
+            <i class="fa fa-plus"></i>
+        </button>
+    </span>
+</div>

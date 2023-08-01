@@ -1,0 +1,69 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Mi perfil de usuario</h4>
+                <h6 class="card-subtitle">Ajustes</h6>
+                <form class="form p-t-20"
+                        [formGroup]="perfilForm"
+                        (ngSubmit)="actualizarPerfil()">
+                    <div class="form-group">
+                        <label for="exampleInputuname">Nombre de usuario</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                            <input type="text" class="form-control"
+                             id="exampleInputuname"
+                              placeholder="Nombre del usuario"
+                              formControlName="nombre">
+                            
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-email"></i></div>
+                            <input type="email" class="form-control" 
+                            id="exampleInputEmail1" 
+                            placeholder="Email"
+                            formControlName="email"
+                            [readOnly]="usuario.google"> <!--SI ES USUARIO DE GOOGLE NO PUEDE CAMBIAR SU EMAIL SE BLOQUE EL INPUT-->
+                        </div>
+                    </div>
+                    
+                    <button type="submit" 
+                     class="btn btn-success btn-block waves-effect waves-light m-r-10"
+                     > 
+                        <i class="fa fa-save"></i>Guardar cambios
+                    </button>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Avatar</h4>
+                <h6 class="card-subtitle">Imagen del usuario</h6>
+
+                <div class="text-center">
+                    <img *ngIf="!imgTemp" [src]="usuario.imagenUrl" class="img-avatar"> <!--SI NO EXISTE LA IMAGEN TEMPORAL UTILIZE LA DEL USUARIO (LA QUE YA TENIA)-->
+                    <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar"> <!--SI EXISTE REEMPPLACELA POR IMAGEN TEMPORAL (ES LA IMAGEN QUE SE VERA LA EN LA PANTALLA CUANDO SE GUARDE)-->
+                </div>
+            
+                <!--IMPORTANTE ESTO SE ACTIVA CUANDO LE HACEMOS CLICK EN CHOOSE FILE, CAPTURAMOS EL EVENTO Y LUEGO BUSCAMOS LA IMAGEN CON LA DIRECCION $event.target.files[0]-->
+                <input type="file"
+                        (change)="cambiarImagen($event.target.files[0])"> <!--EL PRIMER ELEMENTO ES LA IMAGEN POR ESO FILES[0]-->
+                <br> 
+                <!--[disabled]="!imagenSubir" SE DESABILITA EL BOTON SI NO HAY NINGUNA IMAGEN  A SUBIR-->
+                <button type="button"
+                class="btn btn-success btn-block waves-effect waves-light m-r-10"
+                [disabled]="!imagenSubir"  
+                (click)="subirImagen()">
+                     <i class="fa fa-save"></i>
+                     Cambiar imagen
+                </button>
+            </div>
+        </div>
+    </div>     
+</div>
